@@ -13,12 +13,12 @@ input = parser.parse_args()
 names = []
 oknames = []
         
-def levenshtein(a, b):
+def l_dist(a, b):
     if not a: return len(b)
     if not b: return len(a)
-    return min(levenshtein(a[1:], b[1:])+(a[0] != b[0]),
-               levenshtein(a[1:], b)+1,
-               levenshtein(a, b[1:])+1)
+    return min(l_dist(a[1:], b[1:])+(a[0] != b[0]),
+               l_dist(a[1:], b)+1,
+               l_dist(a, b[1:])+1)
  
 def run():   
     with open('20210103_hundenamen.csv') as csv_file:
@@ -29,7 +29,7 @@ def run():
     for name in sorted(set(names)):
         if abs(len(name) - len('"Luca"')) > 1:
             pass # make process faster as we are looking for max 1 insertion or deletion
-        elif levenshtein(name, '"Luca"') == 1:
+        elif l_dist(name, '"Luca"') == 1:
             oknames.append(name)
             
     print(", ".join(oknames))
