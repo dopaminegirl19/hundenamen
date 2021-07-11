@@ -21,13 +21,15 @@ def levenshtein(a, b):
                levenshtein(a, b[1:])+1)
  
 def run():   
-    with open(input.csvname) as csv_file:
+    with open('20210103_hundenamen.csv') as csv_file:
         for line in csv_file.readlines():
             array = line.split(',')
             names.append(array[0])
 
-    for name in names:
-        if levenshtein(name, "Luca"):
+    for name in sorted(set(names)):
+        if abs(len(name) - len('"Luca"')) > 1:
+            pass # make process faster as we are looking for max 1 insertion or deletion
+        elif levenshtein(name, '"Luca"') == 1:
             oknames.append(name)
             
     print(", ".join(oknames))
